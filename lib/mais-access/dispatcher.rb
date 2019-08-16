@@ -12,7 +12,7 @@ module MaisAccess
             authenticate_or_request_with_http_basic("mais ~ access") do |login, password|
                 begin
                     # Get the credentials and POST them to `accounts.scenycwork.net/authenticate`
-                    response = Net::HTTP.post_form(URI("http://localhost:3000/authenticate"), { "username" => login, "password" => password })
+                    response = Net::HTTP.post_form(URI("#{ENV['MAIS_ACCOUNTS_HOSTNAME']}/authenticate"), { "username" => login, "password" => password })
                     # Parse the JSON response
                     body = JSON.parse(response.body)
 
