@@ -3,7 +3,7 @@
 module MaisAccess
     # An abstract class used to store the currently authenticated MAIS user. An instance of
     # this class is initialized everytime `authenticate_mais_user!` completes successfully.
-    # The current MAIS user can be accessed anytime via the `current_mais_user` method.
+    # The current MAIS user can be accessed anytime via the `mais_user` method.
     class User
         attr_reader :username, :full_name
 

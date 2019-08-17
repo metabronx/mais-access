@@ -6,6 +6,10 @@ module MaisAccess
 				require 'mais-access/dispatcher'
 				include MaisAccess::Dispatcher
 
+				# Mark the `mais_user` reader method (defined in Mais::Dispatcher) as a
+				# helper so that it can be accessed from a view
+				helper_method :mais_user
+
 				# Force a MAIS user authentication check on every request
 				before_action :authenticate_mais_user!
 			end
