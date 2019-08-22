@@ -9,7 +9,7 @@ module MaisAccess
 
         def authenticate_mais_user!
             # Prompt the user for HTTP Basic credentials, or authenticate if they are cached in the session
-            authenticate_or_request_with_http_basic("mais ~ access") do |login, password|
+            authenticate_or_request_with_http_basic("access - MAIS - scenycwork") do |login, password|
                 begin
                     # Get the credentials and POST them to `accounts.scenycwork.net/authenticate`
                     response = Net::HTTP.post_form(URI("#{ENV['MAIS_ACCOUNTS_HOSTNAME']}/authenticate"), { "username" => login, "password" => password })
