@@ -23,7 +23,6 @@ module MaisAccess
                     end
                 rescue => e
                     # Something went wrong, so save our butts and don't them in.
-                    Rails.logger.error(e)
                 end
             end
         end
