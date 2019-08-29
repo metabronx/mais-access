@@ -1,4 +1,4 @@
-# MAIS™ Authentication
+# MAIS™ Access
 
 A simple gem that enforces HTTP Basic Authentication for account holders in the MAIS™ business management and information system.
 
