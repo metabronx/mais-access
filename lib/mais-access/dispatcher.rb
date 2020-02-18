@@ -27,6 +27,9 @@ module MaisAccess
                     request.set_form_data({ "username" => login, "password" => password })
                     response = http.request(request)
 
+                    # Parse the response body as JSON
+                    body = JSON.parse(response.body)
+
                     # If the user is valid, set the current mais user and passes the filter action
                     if response.code == '200' && body["authenticated"]
                         @mais_user = MaisAccess::User.new(body["user"])
