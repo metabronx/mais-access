@@ -1,6 +1,6 @@
 module MaisAccess
     module Dispatcher
-        require 'net/http'
+        require 'net/https'
         require 'uri'
         require 'json'
         require 'mais-access/user'
@@ -13,14 +13,19 @@ module MaisAccess
             # Prompt the user for HTTP Basic credentials, or authenticate if they are cached in the session
             authenticate_or_request_with_http_basic("access - MAIS - #{MAIS_CLIENT}") do |login, password|
                 begin
-                    # Get the credentials and POST them to `accounts.scenycwork.net/authenticate`
-                    response = Net::HTTP.post_form(URI("#{ENV['MAIS_ACCOUNTS_HOSTNAME']}/authenticate"), { "username" => login, "password" => password })
-                    # Parse the JSON response
-                    body = JSON.parse(response.body)
+                    # Setup https connection and specify certificate bundle
+                    url = URI("#{ENV['MAIS_ACCOUNTS_HOSTNAME']}/authenticate")
+                    http = Net::HTTP.new(url.host, 443)
+                    http.use_ssl = true
+                    http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+                    http.cert_store = OpenSSL::X509::Store.new
+                    http.cert_store.set_default_paths
+                    http.cert_store.add_file("/etc/pki/tls/certs/server.crt")
 
-                    Rails.logger.info(response.code)
-                    Rails.logger.info(response.message)
-                    Rails.logger.info(response.class.name)
+                    # Get the credentials and POST them to `accounts.scenycwork.net/authenticate`
+                    request = Net::HTTP::Post.new(url.path, {'Content-Type' => 'application/json'})
+                    request.set_form_data({ "username" => login, "password" => password })
+                    response = http.request(request)
 
                     # If the user is valid, set the current mais user and passes the filter action
                     if response.code == '200' && body["authenticated"]
