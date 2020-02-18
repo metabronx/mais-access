@@ -18,13 +18,16 @@ module MaisAccess
                     # Parse the JSON response
                     body = JSON.parse(response.body)
 
+                    Rails.logger.info(response.code)
+                    Rails.logger.info(response.message)
+                    Rails.logger.info(response.class.name)
+
                     # If the user is valid, set the current mais user and passes the filter action
                     if response.code == '200' && body["authenticated"]
                         @mais_user = MaisAccess::User.new(body["user"])
                         return true
                     end
                 rescue => e
-                    Rails.logger.info(e)
                     # Something went wrong, so save our butts and don't them in.
                 end
             end
