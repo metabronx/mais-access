@@ -3,12 +3,12 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
 	spec.name          = "mais-access"
-	spec.version       = "1.0.5"
+	spec.version       = "1.0.6"
 	spec.platform      = Gem::Platform::RUBY
 	spec.author        = "Elias Gabriel"
 	spec.email         = "me@eliasfgabriel.com"
-	spec.summary       = "A MAIS™ authentication middleware."
-	spec.description   = "A simple gem that provides HTTP Basic Authentication for users registered with the MAIS™ accounts application."
+	spec.summary       = "A MAIS(tm) authentication middleware."
+	spec.description   = "A simple gem that provides HTTP Basic Authentication for users registered with the MAIS(tm) accounts application."
 	spec.homepage      = "https://github.com/sdbase/mais-access"
 	spec.license       = "CC-BY-NC-SA-4.0"
 

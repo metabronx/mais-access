@@ -24,6 +24,7 @@ module MaisAccess
                         return true
                     end
                 rescue => e
+                    Rails.logger.info(e)
                     # Something went wrong, so save our butts and don't them in.
                 end
             end
