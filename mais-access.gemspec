@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
 	spec.name          = "mais-access"
-	spec.version       = "1.1.1"
-	spec.platform      = Gem::Platform::RUBY
+	spec.version       = "1.1.2"
 	spec.author        = "Elias Gabriel"
 	spec.email         = "me@eliasfgabriel.com"
 	spec.summary       = "A MAIS(tm) authentication middleware."
@@ -23,5 +24,5 @@ Gem::Specification.new do |spec|
 	spec.add_dependency "rails", '>= 4.0.2'
 
 	spec.add_development_dependency "bundler", '~> 2.0'
-	spec.add_development_dependency "rake", '~> 10.0'
+  spec.add_development_dependency "rake", '~> 10.0'
 end
