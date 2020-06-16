@@ -7,17 +7,15 @@ module MaisAccess
     require "json"
     require "mais/access/user"
 
-    PROMPT = "access - MAIS"
+    PROMPT = "access - MAIS - #{MAIS_CLIENT}"
     API_HOSTNAME = ENV["MAIS_ACCOUNTS_HOSTNAME"]
     AUTH_ENDPOINT = "#{API_HOSTNAME}/api/authenticate"
     JWT_ENDPOINT = "#{API_HOSTNAME}/api/verify"
-    USE_HTTPS = ENV.fetch("USE_HTTPS") { false }.freeze
 
     private_constant :PROMPT
     private_constant :API_HOSTNAME
     private_constant :AUTH_ENDPOINT
     private_constant :JWT_ENDPOINT
-    public_constant :USE_HTTPS
 
     def authenticate_mais_user!
       valid_jwt? || authenticate_or_request_with_http_basic(PROMPT) { |l, p| user?(l, p) }
@@ -32,8 +30,8 @@ module MaisAccess
     def make_http(endpoint)
       uri = URI(endpoint)
 
-      # Setup https connection and specify certificate bundle if enabled
-      if USE_HTTPS
+      # Setup https connection and specify certificate bundle if in production
+      if Rails.env.production?
         http = Net::HTTP.new(uri.host, 443)
         http.use_ssl = true
         http.verify_mode = OpenSSL::SSL::VERIFY_PEER

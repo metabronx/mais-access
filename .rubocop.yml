@@ -14,7 +14,3 @@ inherit_mode:
     - Exclude
     - IgnoredMethods
     - AllowedMethods
-
-Style/MethodCallWithArgsParentheses:
-  Exclude:
-    - "**/Gemfile"
