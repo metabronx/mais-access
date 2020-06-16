@@ -7,11 +7,13 @@ module MaisAccess
     require "json"
     require "mais/access/user"
 
+    MAIS_CLIENT = (Rails.application.credentials[:client] || "unregistered").freeze
     PROMPT = "access - MAIS - #{MAIS_CLIENT}"
     API_HOSTNAME = ENV["MAIS_ACCOUNTS_HOSTNAME"]
     AUTH_ENDPOINT = "#{API_HOSTNAME}/api/authenticate"
     JWT_ENDPOINT = "#{API_HOSTNAME}/api/verify"
 
+    public_constant :MAIS_CLIENT
     private_constant :PROMPT
     private_constant :API_HOSTNAME
     private_constant :AUTH_ENDPOINT

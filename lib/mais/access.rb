@@ -8,10 +8,6 @@ module MaisAccess
         require "mais/access/dispatcher"
         include MaisAccess::Dispatcher
 
-        MAIS_CLIENT = (Rails.application.credentials[:client] || "unregistered").freeze
-
-        public_constant :MAIS_CLIENT
-
         # Mark the `mais_user` reader method (defined in Mais::Dispatcher) as a
         # helper so that it can be accessed from a view
         helper_method :mais_user
