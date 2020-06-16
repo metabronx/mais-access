@@ -1,10 +1,10 @@
 # MAIS Access
 
-A simple gem that enforces HTTP Basic Authentication for account holders in the MAIS business management and information system.
+mais-access provides a simple yet secure HTTP/JWT authentication middleware for applications developed within the MAIS system. After initial connection, sessions for authenticated clients are validated by JSON Web Tokens for reduced overhead and improved security.
 
 ## License
 
-Copyright � 2019 [Elias Gabriel](https://eliasfgabriel.com/), [sdbase](http://sdbase.com/)
+Copyright (c) 2020 [Elias Gabriel](https://eliasfgabriel.com/), [sdbase](http://sdbase.com/)
 
 This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 
