@@ -1,0 +1,20 @@
+#
+# RuboCop is a Ruby static code analyzer and code formatter that tries to enforce many of
+# the guidelines outlined in the community Ruby and Rails
+# style guides.
+#
+# https://docs.rubocop.org/en/latest/
+# https://rubystyle.guide/
+# https://rails.rubystyle.guide/
+inherit_gem:
+  practical-pig: rubocop-base.yaml
+inherit_mode:
+  merge:
+    - Include
+    - Exclude
+    - IgnoredMethods
+    - AllowedMethods
+
+Style/MethodCallWithArgsParentheses:
+  Exclude:
+    - "**/Gemfile"

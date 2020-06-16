@@ -4,25 +4,37 @@ lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
-	spec.name          = "mais-access"
-	spec.version       = "1.1.2"
-	spec.author        = "Elias Gabriel"
-	spec.email         = "me@eliasfgabriel.com"
-	spec.summary       = "A MAIS(tm) authentication middleware."
-	spec.description   = "A simple gem that provides HTTP Basic Authentication for users registered with the MAIS(tm) accounts application."
-	spec.homepage      = "https://github.com/sdbase/mais-access"
-	spec.license       = "CC-BY-NC-SA-4.0"
+  spec.name = "mais-access"
+  spec.version     = "2.0.0"
+  spec.author      = "Elias Gabriel"
+  spec.email       = "me@eliasfgabriel.com"
+  spec.homepage    = "https://github.com/sdbase/mais-access"
+  spec.license     = "CC-BY-NC-SA-4.0"
 
-	spec.metadata["homepage_uri"] = spec.metadata["source_code_uri"] = spec.homepage
-	spec.extra_rdoc_files = ["README.md"]
+  spec.summary     = "Provides a HTTP/JWT authentication middleware."
+  spec.description = <<~HEREDOC.gsub(/[[:space:]]+/, " ").strip
+    mais-access provides a simple yet secure HTTP(S) authentication barrier for
+    applications developed within the MAIS system. After initial connection, sessions
+    for authenticated clients is validated by JSON Web Token for reduced overhead and
+    improved security.
+  HEREDOC
 
-	spec.require_paths = ["lib"]
-	spec.files = Dir.chdir(File.expand_path('..', __FILE__)) do
-		`git ls-files -z`.split("\x0")
-	end
+  spec.metadata    = {
+    "homepage_uri" => spec.homepage,
+    "source_code_uri" => spec.homepage,
+    "bug_tracker_uri" => "#{spec.homepage}/issues"
+  }
 
-	spec.add_dependency "rails", '>= 4.0.2'
+  spec.required_ruby_version = ">= 2.4.0"
 
-	spec.add_development_dependency "bundler", '~> 2.0'
-  spec.add_development_dependency "rake", '~> 10.0'
+  spec.add_dependency "rails", "~> 5.2"
+
+  spec.add_development_dependency "practical-pig", "~> 1.0"
+  spec.add_development_dependency "rubocop", "~> 0.83.0"
+  spec.add_development_dependency "rubocop-minitest", "~> 0.9"
+  spec.add_development_dependency "rubocop-performance", "~> 1.3"
+  spec.add_development_dependency "rubocop-rails", "~> 2.5"
+
+  spec.files = `git ls-files`.split("\n")
+  # spec.test_files  = `git ls-files -- test/*`.split("\n")
 end
