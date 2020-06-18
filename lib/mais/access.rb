@@ -5,11 +5,12 @@ module MaisAccess
     initializer("mais.middleware") do |_app|
       # Hook into ActionController's loading process
       ActiveSupport.on_load(:action_controller) do
-        require "mais/access/dispatcher"
-        include MaisAccess::Dispatcher
+        require "mais/access/controller"
 
-        # Mark the `mais_user` reader method (defined in Mais::Dispatcher) as a
-        # helper so that it can be accessed from a view
+        include MaisAccess::Controller
+
+        # Mark the `mais_user` reader method as a helper so that it can be accessed
+        # from a view
         helper_method :mais_user
 
         # Force a MAIS user authentication check on every request
@@ -22,7 +23,9 @@ module MaisAccess
         #
         # https://link.medium.com/q1U60lAYm7
         #
-        # If Rails detects an invalid authentication token, we reset the current session.
+        # If Rails detects an invalid authentication token, reset the current session.
+        # Prepend forgery protection to the beginning of the request action chain to
+        # ensure that it is the first thing to run.
         protect_from_forgery with: :reset_session, prepend: true
       end
     end

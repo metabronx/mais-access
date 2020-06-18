@@ -5,7 +5,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name = "mais-access"
-  spec.version     = "2.1.0"
+  spec.version     = "2.1.1"
   spec.author      = "Elias Gabriel"
   spec.email       = "me@eliasfgabriel.com"
   spec.homepage    = "https://github.com/sdbase/mais-access"
