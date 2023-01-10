@@ -13,8 +13,9 @@ If there isn't a valid JWT (it's either missing or expired), the user is prompte
 In flowchart form:
 
 ```mermaid
+%%{init: { "flowchart": { "curve": "linear" } } }%%
 flowchart TD
-    A(Can the user access?) --> B{Is there a JWT cookie?}
+    A(CAN THE USER ACCESS?) --> B{Is there a JWT cookie?}
     B -- No --> C[[Ask for credentials]]
     B -- Yes ---> D{Is it valid?}
     C --> E{Are they valid?}
@@ -31,6 +32,7 @@ flowchart TD
     BB -- No -->C
     BB -- Yes --> F[[Set JWT cookie]] --> G
     AA -- Yes --> G((ALLOW))
+    
     style G fill:#2D882D
 ```
 
