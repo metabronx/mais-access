@@ -21,14 +21,13 @@ module MaisAccess
       begin
         # Setup and yield an HTTPS connection to the specified endpoint
         Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
-          next yield(uri.path, http)
+          yield(uri.path, http)
         end
       rescue StandardError => e
         Rails.logger.error(e)
+        # Something went wrong, so save our butts and don't them in
+        false
       end
-
-      # Something went wrong, so save our butts and don't them in
-      false
     end
 
     def valid_jwt?
