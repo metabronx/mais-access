@@ -1,3 +1,4 @@
-/node_modules
-*.gem
+node_modules
+vendor
 Gemfile.lock
+*.gem

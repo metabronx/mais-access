@@ -2,8 +2,8 @@
 
 module MaisAccess
   module Dispatcher
-    AUTH_ENDPOINT = "#{ENV["MAIS_ACCOUNTS_HOSTNAME"]}/api/authenticate"
-    JWT_ENDPOINT = "#{ENV["MAIS_ACCOUNTS_HOSTNAME"]}/api/verify"
+    AUTH_ENDPOINT = "#{ENV.fetch("MAIS_ACCOUNTS_HOSTNAME")}/api/authenticate"
+    JWT_ENDPOINT = "#{ENV.fetch("MAIS_ACCOUNTS_HOSTNAME")}/api/verify"
     private_constant :AUTH_ENDPOINT
     private_constant :JWT_ENDPOINT
 
@@ -18,46 +18,42 @@ module MaisAccess
     def make_secure_http(endpoint)
       uri = URI(endpoint)
 
-      # Setup https connection and specify certificate bundle if in production
-      if Rails.env.production?
-        http = Net::HTTP.new(uri.host, 443)
-        http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-        http.cert_store = OpenSSL::X509::Store.new
-        http.cert_store.set_default_paths
-        http.cert_store.add_file("/etc/pki/tls/certs/server.crt")
-      else
-        # otherwise, just use what was given to us
-        http = Net::HTTP.new(uri.host, uri.port)
+      begin
+        # Setup and yield an HTTPS connection to the specified endpoint
+        Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
+          yield(uri.path, http)
+        end
+      rescue StandardError => e
+        Rails.logger.error(e)
+        # Something went wrong, so save our butts and don't them in
+        false
       end
-
-      return uri.path, http
     end
 
     def valid_jwt?
       return false if session[:mais_user].blank? || session[:jwt].blank?
 
-      uri, http = make_secure_http(JWT_ENDPOINT)
+      make_secure_http(JWT_ENDPOINT) do |path, http|
+        # Try to access the verification endpoint with the stored JWT
+        request = Net::HTTP::Get.new(path)
+        request["Authorization"] = session[:jwt]
+        response = http.request(request)
 
-      # Try to access the verification page with the stored JWT
-      request = Net::HTTP::Get.new(uri)
-      request["Authorization"] = session[:jwt]
-      response = http.request(request)
+        # If the server returns HTTP 204 No Content, the token is valid.
+        # `next` is required instead of `return` because `return` exits
+        # without finishing the block execution (cleaning up)
+        next true if response.code == "204"
 
-      # If the server returns HTTP 204 No Content, the token is valid
-      return true if response.code == "204"
-
-      # invalid token, force a session reset
-      set_session
-      false
+        # invalid token, force a session reset
+        set_session
+        false
+      end
     end
 
     def user?(login, password)
-      begin
-        uri, http = make_secure_http(AUTH_ENDPOINT)
-
+      make_secure_http(AUTH_ENDPOINT) do |path, http|
         # Post the credentials to the authentication endpoint
-        request = Net::HTTP::Post.new(uri, { "Content-Type" => "application/json" })
+        request = Net::HTTP::Post.new(path, { "Content-Type" => "application/json" })
         request.body = JSON.generate({ user: { username: login, password: password } })
         response = http.request(request)
 
@@ -67,14 +63,11 @@ module MaisAccess
         # If the user is valid, reset the session and set the current mais user
         if response.code == "201" && body["user"]
           set_session(body["user"], response["Authorization"])
-          return true
+          next true
         end
-      rescue StandardError => e
-        Rails.logger.error(e)
-      end
 
-      # Something went wrong, so save our butts and don't them in
-      false
+        false
+      end
     end
   end
 end

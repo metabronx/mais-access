@@ -1,7 +1,6 @@
 #
-# RuboCop is a Ruby static code analyzer and code formatter that tries to enforce many of
-# the guidelines outlined in the community Ruby and Rails
-# style guides.
+# RuboCop is a Ruby static code analyzer and code formatter that tries to enforce many
+# of the guidelines outlined in the community Ruby and Rails style guides.
 #
 # https://docs.rubocop.org/en/latest/
 # https://rubystyle.guide/
@@ -14,3 +13,9 @@ inherit_mode:
     - Exclude
     - IgnoredMethods
     - AllowedMethods
+
+AllCops:
+  NewCops: enable
+
+Gemspec/RequiredRubyVersion:
+  Enabled: false
