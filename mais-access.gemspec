@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.homepage    = "https://github.com/metabronx/mais-access"
   spec.license     = "CC-BY-NC-SA-4.0"
 
-  spec.summary     = "Provides a HTTP/JWT authentication middleware."
+  spec.summary     = "Provides an HTTP/JWT authentication middleware."
   spec.description = <<~HEREDOC.gsub(/[[:space:]]+/, " ").strip
     mais-access provides a simple yet secure HTTP(S) authentication barrier for
     applications developed within the MAIS system. After initial connection, sessions
@@ -20,10 +20,11 @@ Gem::Specification.new do |spec|
   HEREDOC
 
   spec.metadata    = {
-    "homepage_uri" => spec.homepage,
+    "homepage_uri" => "https://www.metabronx.com",
     "source_code_uri" => spec.homepage,
     "bug_tracker_uri" => "#{spec.homepage}/issues",
-    "rubygems_mfa_required" => "true"
+    "rubygems_mfa_required" => "true",
+    "funding_uri" => "https://www.metabronx.com/invest"
   }
 
   spec.required_ruby_version = ">= 2.4.0"
@@ -37,5 +38,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop-performance"
   spec.add_development_dependency "rubocop-rails"
 
-  spec.files = `git ls-files`.split("\n")
+  spec.files = `git ls-files lib/`.split("\n")
 end
